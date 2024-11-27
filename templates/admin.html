@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adsty.css') }}">
+</head>
+<body>
+    <div class="tabbar">
+        ADMIN
+    </div>
+    <div class="container">
+        <h1>Welcome to Admin Panel</h1>
+        <div class="button-container">
+            <button class="button" onclick="toggleTable()">Show data list</button>
+            <a href="{{ url_for('home') }}" class="button">Log out</a>
+            <a href="{{ url_for('add_user_route') }}" class="button">Add User</a> <!-- Thêm nút Add User -->
+        </div>
+    </div>
+
+    <div id="userTable" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['id'] }}</td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['password'] }}</td>
+                    <td>{{ user['email'] }}</td>
+                    <td>{{ user['access_level'] }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_user', id=user['id']) }}">Edit</a>
+                        <form action="{{ url_for('delete_user', id=user['id']) }}" method="post" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No data available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
